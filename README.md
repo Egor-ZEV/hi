@@ -1,7 +1,2 @@
-FROM ubuntu:latest
-
-ENV APACHE_DIRECTORY_STUDIO_VERSION=2.0.0.v20211010-M19
-
-WORKDIR /ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}
-
-CMD ["./ApacheDirectoryStudio"]                             
+docker start phpldapadmin-container
+docker create --name phpldapadmin-container -p 8080:80 osixia/phpldapadmin:latest
