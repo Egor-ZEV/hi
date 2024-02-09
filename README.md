@@ -1,13 +1,12 @@
-
-Dockerfile:5
---------------------
-   4 |     
-   5 | >>> RUN apt-get update \
-   6 | >>>     && apt-get install -y openjdk-11-jre wget \
-   7 | >>>     && wget https://archive.apache.org/dist/directory/studio/${APACHE_DIRECTORY_STUDIO_VERSION}/ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}-linux.gtk.x86_64.tar.gz \
-   8 | >>>     && tar -xzf ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}-linux.gtk.x86_64.tar.gz \
-   9 | >>>     && rm ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}-linux.gtk.x86_64.tar.gz
-  10 |     
---------------------
-ERROR: failed to solve: process "/bin/sh -c apt-get update     && apt-get install -y openjdk-11-jre wget     && wget https://archive.apache.org/dist/directory/studio/${APACHE_DIRECTORY_STUDIO_VERSION}/ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}-linux.gtk.x86_64.tar.gz     && tar -xzf ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}-linux.gtk.x86_64.tar.gz     && rm ApacheDirectoryStudio-${APACHE_DIRECTORY_STUDIO_VERSION}-linux.gtk.x86_64.tar.gz" did not complete successfully: exit code: 8
-
+➜  dockers_Apache docker images
+REPOSITORY                TAG       IMAGE ID       CREATED          SIZE
+apache-directory-studio   latest    5bac6f6ce69d   12 seconds ago   77.9MB
+osixia/openldap           latest    31d1d6e16394   2 years ago      257MB
+➜  dockers_Apache docker run -d -it --name apache-container ap 
+Unable to find image 'ap:latest' locally
+docker: Error response from daemon: pull access denied for ap, repository does not exist or may require 'docker login': denied: requested access to the resource is denied.
+See 'docker run --help'.
+➜  dockers_Apache docker run -d -it --name apache-container apache-directory-studio
+d963ae5b809d993b129648fffa2a779511c246d84cc4b91d899fc6b4b84314f5
+docker: Error response from daemon: failed to create task for container: failed to create shim task: OCI runtime create failed: runc create failed: unable to start container process: exec: "./ApacheDirectoryStudio": stat ./ApacheDirectoryStudio: no such file or directory: unknown.
+➜  dockers_Apache docker run -d -it --name apache-container apache-directory-studio
