@@ -1,23 +1,32 @@
-➜  dockers ldapsearch -x -H ldap://localhost -b dc=ldap,dc=server,dc=rlik -D "cn=admin,dc=ldap,dc=server,dc=rlik" -w admin
-# extended LDIF
-#
-# LDAPv3
-# base <dc=ldap,dc=server,dc=rlik> with scope subtree
-# filter: (objectclass=*)
-# requesting: ALL
-#
+version: '3'
+services:
+  openldap:
+    image: osixia/openldap:latest
+    container_name: openldap_server
+    ports:
+      - "389:389"
+    environment:
+      LDAP_ORGANISATION: "organization"
+      LDAP_DOMAIN: "ldap.server.rlik"
+      LDAP_ADMIN_PASSWORD: "admin"
+    networks:
+      - testnet
 
-# ldap.server.rlik
-dn: dc=ldap,dc=server,dc=rlik
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: organization
-dc: ldap
+  openldap-ui:
+    image: dnknth/ldap-ui:latest 
+    container_name: ldap_ui
+    ports:
+      - "5000:5000"
+    environment:
+      LDAP_URL: ldap://openldap_server:389
+      BASE_DN: "dc=ldap,dc=server,dc=rlik"
+    networks:
+      - testnet
 
-# search result
-search: 2
-result: 0 Success
 
-# numResponses: 2
-# numEntries: 1
+networks:
+  testnet:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.28.0.0/16
