@@ -18,7 +18,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      LDAP_URL: "ldap://openldap_server:389/"
+      LDAP_URL: 
       BASE_DN: "dc=ldap,dc=server,dc=rlik"
     networks:
       - testnet
