@@ -1,36 +1,13 @@
-version: '3'
+Чтобы связать FreeRADIUS с OpenLDAP, необходимо настроить FreeRADIUS для использования OpenLDAP в качестве источника данных для аутентификации пользователей. Вот общий подход к настройке этой связи:
 
-services:
-  openldap:
-    image: osixia/openldap:1.5.0
-    container_name: openldap
-    environment:
-      LDAP_ORGANISATION: "MyCompany"
-      LDAP_DOMAIN: "ldap.server.rlik"
-      LDAP_ADMIN_PASSWORD: "adminpassword"
-    ports:
-      - "389:389"
-    networks:
-      - ldap_network
+    Установка и настройка FreeRADIUS: Убедитесь, что FreeRADIUS установлен и настроен на вашем сервере. Обычно это включает установку пакета FreeRADIUS и настройку его конфигурационных файлов, таких как radiusd.conf и clients.conf.
 
-  ldap_ui:
-    image: dnknth/ldap-ui
-    container_name: ldap_ui
-    environment:
-      - LDAP_URL=ldap://openldap/
-      - BASE_DN=dc=ldap,dc=server,dc=rlik
-    ports:
-      - "5000:5000"
-    networks:
-      - ldap_network
+    Настройка подключения к OpenLDAP: Внесите изменения в файл конфигурации FreeRADIUS, чтобы указать подключение к серверу OpenLDAP. Это обычно делается в файле modules/ldap или mods-available/ldap. Укажите параметры для подключения к вашему серверу OpenLDAP, такие как хост, порт, базовый DN, имя пользователя и пароль.
 
-  radius:
-    image: freeradius/freeradius-server:latest
-    container_name: radius
-    ports:
-      - "1812:1812/udp"
-    networks:
-      - ldap_network
+    Настройка запроса аутентификации: Настройте FreeRADIUS для выполнения запросов аутентификации к вашему серверу OpenLDAP. Это обычно делается в файле sites-enabled/default или sites-available/default. Укажите параметры для запроса, такие как фильтр поиска и атрибуты для проверки аутентификации.
 
-networks:
-  ldap_network:
+    Тестирование и отладка: После настройки запустите FreeRADIUS и проведите тестовые аутентификации, чтобы убедиться, что связь с OpenLDAP работает корректно. Отслеживайте журналы FreeRADIUS для обнаружения любых проблем и их решения.
+
+    Обеспечение безопасности: Убедитесь, что ваша конфигурация FreeRADIUS и OpenLDAP настроена безопасно, чтобы предотвратить несанкционированный доступ к сети и данным пользователей.
+
+Это общий подход к связыванию FreeRADIUS с OpenLDAP. Пожалуйста, обратитесь к документации FreeRADIUS и OpenLDAP для более подробных инструкций и настройки, соответствующих вашим потребностям и сценариям использования.
