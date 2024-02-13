@@ -1,13 +1,102 @@
-Чтобы связать FreeRADIUS с OpenLDAP, необходимо настроить FreeRADIUS для использования OpenLDAP в качестве источника данных для аутентификации пользователей. Вот общий подход к настройке этой связи:
+logdir = /var/log/freeradius
+raddbdir = /etc/freeradius
+radacctdir = ${logdir}/radacct
 
-    Установка и настройка FreeRADIUS: Убедитесь, что FreeRADIUS установлен и настроен на вашем сервере. Обычно это включает установку пакета FreeRADIUS и настройку его конфигурационных файлов, таких как radiusd.conf и clients.conf.
+#  name of the running server.  See also the "-n" command-line option.
+name = freeradius
 
-    Настройка подключения к OpenLDAP: Внесите изменения в файл конфигурации FreeRADIUS, чтобы указать подключение к серверу OpenLDAP. Это обычно делается в файле modules/ldap или mods-available/ldap. Укажите параметры для подключения к вашему серверу OpenLDAP, такие как хост, порт, базовый DN, имя пользователя и пароль.
+#  Location of config and logfiles.
+confdir = ${raddbdir}
+modconfdir = ${confdir}/mods-config
+certdir = ${confdir}/certs
+cadir   = ${confdir}/certs
+run_dir = ${localstatedir}/run/${name}
 
-    Настройка запроса аутентификации: Настройте FreeRADIUS для выполнения запросов аутентификации к вашему серверу OpenLDAP. Это обычно делается в файле sites-enabled/default или sites-available/default. Укажите параметры для запроса, такие как фильтр поиска и атрибуты для проверки аутентификации.
+# Should likely be ${localstatedir}/lib/radiusd
+db_dir = ${raddbdir}
 
-    Тестирование и отладка: После настройки запустите FreeRADIUS и проведите тестовые аутентификации, чтобы убедиться, что связь с OpenLDAP работает корректно. Отслеживайте журналы FreeRADIUS для обнаружения любых проблем и их решения.
+libdir = /usr/lib/freeradius
 
-    Обеспечение безопасности: Убедитесь, что ваша конфигурация FreeRADIUS и OpenLDAP настроена безопасно, чтобы предотвратить несанкционированный доступ к сети и данным пользователей.
+pidfile = ${run_dir}/${name}.pid
 
-Это общий подход к связыванию FreeRADIUS с OpenLDAP. Пожалуйста, обратитесь к документации FreeRADIUS и OpenLDAP для более подробных инструкций и настройки, соответствующих вашим потребностям и сценариям использования.
+max_request_time = 30
+
+cleanup_delay = 5
+
+max_requests = 16384
+
+hostname_lookups = no
+
+log {
+        destination = files
+
+        colourise = yes
+
+        file = ${logdir}/radius.log
+
+        syslog_facility = daemon
+
+        stripped_names = no
+
+        auth = no
+
+        auth_badpass = no
+        auth_goodpass = no
+
+        msg_denied = "You are already logged in - access denied"
+
+}
+
+checkrad = ${sbindir}/checkrad
+
+ENV {
+}
+
+security {
+        user = freerad        
+        group = freerad
+
+        allow_core_dumps = no
+
+        max_attributes = 200
+
+        reject_delay = 1
+
+
+}
+
+proxy_requests  = yes
+$INCLUDE proxy.conf
+
+
+$INCLUDE clients.conf
+
+
+thread pool {
+        start_servers = 5
+
+        max_servers = 32
+
+        min_spare_servers = 3
+        max_spare_servers = 10
+
+        #  '0' is a special value meaning 'infinity', or 'the servers never
+        #  exit'
+        max_requests_per_server = 0
+
+        auto_limit_acct = no
+}
+
+modules {
+        $INCLUDE mods-enabled/
+}
+
+instantiate {
+}
+
+policy {
+        $INCLUDE policy.d/
+}
+
+$INCLUDE sites-enabled/
+
