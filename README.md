@@ -1,16 +1,4 @@
-modules {
-    ...
-    ldap {
-        # Параметры подключения к серверу OpenLDAP
-        server = "ldap.example.com"
-        identity = "cn=admin,dc=example,dc=com"
-        password = "adminpassword"
-        basedn = "dc=example,dc=com"
-        filter = "(uid=%{Stripped-User-Name:-%{User-Name}})"
-        tls = no
-        start_tls = no
-        tls_reqcert = never
-        ...
-    }
-    ...
-}
+MariaDB [(none)]> alter user ahi@2020 identified by '2024';
+ERROR 1396 (HY000): Operation ALTER USER failed for 'ahi'@'2020'
+
+
