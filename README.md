@@ -1,30 +1,10 @@
-version: '3.7'
-
-services:
-  mariadb:
-    image: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: example
-    ports:
-      - "3306:3306"
-    volumes:
-      - mariadb_data:/var/lib/mysql
-
-  daloradius:
-    image: osixia/daloradius:latest
-    restart: always
-    environment:
-      DALORADIUS_DB_HOST: mariadb
-      DALORADIUS_DB_PORT: 3306
-      DALORADIUS_DB_NAME: radius
-      DALORADIUS_DB_USER: radius
-      DALORADIUS_DB_PASSWORD: radius
-    ports:
-      - "80:80"
-    depends_on:
-      - mariadb
-
-volumes:
-  mariadb_data:
-
+root@0aa2805d9b1f:/# radtest test test radius 0 qqqqqqqq
+Sent Access-Request Id 135 from 0.0.0.0:ecfb to 172.28.0.3:1812 length 74
+	User-Name = "test"
+	User-Password = "test"
+	NAS-IP-Address = 172.28.0.3
+	NAS-Port = 0
+	Message-Authenticator = 0x00
+	Cleartext-Password = "test"
+Received Access-Reject Id 135 from 172.28.0.3:714 to 172.28.0.3:60667 length 20
+(0) -: Expected Access-Accept got Access-Reject
