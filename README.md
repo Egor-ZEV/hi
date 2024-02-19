@@ -1,44 +1,9 @@
-root@cf649877b739:/# ldapsearch -x -H ldap://ldap.server.rlik:389 -b dc=ldap,dc=server,dc=rlik -D "cn=admin,dc=ldap,dc=server,dc=rlik" -w admin
-# extended LDIF
-#
-# LDAPv3
-# base <dc=ldap,dc=server,dc=rlik> with scope subtree
-# filter: (objectclass=*)
-# requesting: ALL
-#
-
-# ldap.server.rlik
-dn: dc=ldap,dc=server,dc=rlik
-objectClass: top
-objectClass: dcObject
-objectClass: organization
-o: MyCompany
-dc: ldap
-
-# ops, ldap.server.rlik
-dn: cn=ops,dc=ldap,dc=server,dc=rlik
-cn: ops
-gidNumber: 500
-objectClass: posixGroup
-objectClass: top
-
-# test, ops, ldap.server.rlik
-dn: cn=test,cn=ops,dc=ldap,dc=server,dc=rlik
-givenName: test
-sn: test
-cn: test
-uid: test
-userPassword:: e01ENX1DWTlyelVZaDAzUEszazZESmllMDlnPT0=
-uidNumber: 1000
-gidNumber: 500
-homeDirectory: /home/users/test
-objectClass: inetOrgPerson
-objectClass: posixAccount
-objectClass: top
-
-# search result
-search: 2
-result: 0 Success
-
-# numResponses: 4
-# numEntries: 3
+root@cf649877b739:/# radtest test test 127.0.0.1 testing123
+Usage: radtest [OPTIONS] user passwd radius-server[:port] nas-port-number secret [ppphint] [nasname]
+        -d RADIUS_DIR       Set radius directory
+        -t <type>           Set authentication method
+                            type can be pap, chap, mschap, or eap-md5
+        -P protocol         Select udp (default) or tcp
+        -x                  Enable debug output
+        -4                  Use IPv4 for the NAS address (default)
+        -6                  Use IPv6 for the NAS address
