@@ -1,3 +1,12 @@
-root@c91e7a6d5b32:/# lsof -i UDP:1812
-root@c91e7a6d5b32:/# 
+version: '3'
 
+services:
+  freeradius:
+    image: freeradius/freeradius-server:latest
+    ports:
+      - "1812:1812/udp"
+      - "1813:1813/udp"
+    volumes:
+      - /path/to/freeradius/config:/etc/freeradius
+      - /path/to/freeradius/logs:/var/log/freeradius
+    restart: always
