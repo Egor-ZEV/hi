@@ -1,8 +1,30 @@
-root@e207b8c6e33f:/# service freeradius status
- * freeradius is not running
-root@e207b8c6e33f:/# netstat -tulnp | grep 1812
-udp        0      0 127.0.0.1:18120         0.0.0.0:*                           -                   
-udp        0      0 0.0.0.0:1812            0.0.0.0:*                           -                   
-udp6       0      0 :::1812                 :::*                                -                   
-root@e207b8c6e33f:/# 
+#include <stdio.h>
 
+// Функция для проверки, является ли число простым
+int is_prime(int num) {
+    if (num <= 1) {
+        return 0; // Не является простым
+    }
+    for (int i = 2; i * i <= num; ++i) {
+        if (num % i == 0) {
+            return 0; // Не является простым
+        }
+    }
+    return 1; // Является простым
+}
+
+int main() {
+    int n;
+    printf("Введите число: ");
+    scanf("%d", &n);
+
+    printf("Простые числа, включая %d:\n", n);
+    for (int i = 2; i <= n; ++i) {
+        if (is_prime(i)) {
+            printf("%d ", i);
+        }
+    }
+    printf("\n");
+
+    return 0;
+}
