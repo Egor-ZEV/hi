@@ -1,10 +1,44 @@
-root@cf649877b739:/etc/freeradius/mods-enabled# radtest test1 testpassword 127.0.0.1:1812 0  testing123
-Sent Access-Request Id 165 from 0.0.0.0:b1ac to 127.0.0.1:1812 length 75
-	User-Name = "test1"
-	User-Password = "testpassword"
-	NAS-IP-Address = 172.28.0.7
-	NAS-Port = 0
-	Message-Authenticator = 0x00
-	Cleartext-Password = "testpassword"
-Received Access-Reject Id 165 from 127.0.0.1:714 to 127.0.0.1:45484 length 20
-(0) -: Expected Access-Accept got Access-Reject
+root@cf649877b739:/# ldapsearch -x -H ldap://ldap.server.rlik:389 -b dc=ldap,dc=server,dc=rlik -D "cn=admin,dc=ldap,dc=server,dc=rlik" -w admin
+# extended LDIF
+#
+# LDAPv3
+# base <dc=ldap,dc=server,dc=rlik> with scope subtree
+# filter: (objectclass=*)
+# requesting: ALL
+#
+
+# ldap.server.rlik
+dn: dc=ldap,dc=server,dc=rlik
+objectClass: top
+objectClass: dcObject
+objectClass: organization
+o: MyCompany
+dc: ldap
+
+# ops, ldap.server.rlik
+dn: cn=ops,dc=ldap,dc=server,dc=rlik
+cn: ops
+gidNumber: 500
+objectClass: posixGroup
+objectClass: top
+
+# test, ops, ldap.server.rlik
+dn: cn=test,cn=ops,dc=ldap,dc=server,dc=rlik
+givenName: test
+sn: test
+cn: test
+uid: test
+userPassword:: e01ENX1DWTlyelVZaDAzUEszazZESmllMDlnPT0=
+uidNumber: 1000
+gidNumber: 500
+homeDirectory: /home/users/test
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: top
+
+# search result
+search: 2
+result: 0 Success
+
+# numResponses: 4
+# numEntries: 3
