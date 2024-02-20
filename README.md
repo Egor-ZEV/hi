@@ -1,6 +1,15 @@
- => ERROR [radius 3/3] RUN ./configure --with-openssl=no --with-gnutls=yes     && make     && make install                                                                                                    2.9s 
-------                                                                                                                                                                                                             
- > [radius 3/3] RUN ./configure --with-openssl=no --with-gnutls=yes     && make     && make install:                                                                                                               
-1.783 /bin/sh: 1: ./configure: not found                                                                                                                                                                           
-------                                                                                                                                                                                                             
-failed to solve: process "/bin/sh -c ./configure --with-openssl=no --with-gnutls=yes     && make     && make install" did not complete successfully: exit code: 127 
+FROM freeradius/freeradius-server
+
+RUN apt-get update \
+    && apt-get install -y wget build-essential libgnutls28-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN wget ftp://ftp.freeradius.org/pub/freeradius/freeradius-server-x.x.x.tar.gz \
+    && tar -zxvf freeradius-server-x.x.x.tar.gz \
+    && cd freeradius-server-x.x.x \
+    && ./configure --with-openssl=no --with-gnutls=yes \
+    && make \
+    && make install
+
+CMD ["radiusd", "-X"]
+curl -s https://github.com/FreeRADIUS/freeradius-server/releases/latest | grep -o -E "v[0-9]+\.[0-9]+\.[0-9]+"
