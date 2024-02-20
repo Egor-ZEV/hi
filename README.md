@@ -13,3 +13,4 @@ RUN wget ftp://ftp.freeradius.org/pub/freeradius/freeradius-server-x.x.x.tar.gz 
 
 CMD ["radiusd", "-X"]
 curl -s https://github.com/FreeRADIUS/freeradius-server/releases/latest | grep -o -E "v[0-9]+\.[0-9]+\.[0-9]+"
+FROM freeradius/freeradius-server:v3.0.21
