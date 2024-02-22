@@ -1,6 +1,10 @@
-version: '3.8'
+version: '3'
 
 services:
-  ubuntu_container:
-    image: ubuntu
-    command: tail -f /dev/null
+  cisco-router:
+    image: cisco/csr1000v
+    ports:
+      - "2222:22"  # Перенаправление порта SSH
+    volumes:
+      - ./configs:/configs  # Монтирование каталога с конфигурационными файлами
+    command: ["sh", "-c", "cp /configs/* /etc/ssh/ && /usr/sbin/sshd -D"]
