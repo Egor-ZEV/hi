@@ -1,4 +1,3 @@
-➜  tel sudo bash -c "$(curl --insecure  -fsSL https://teleport.server.rlik:3080/scripts/5fbdf3f685117efbc18505d6624e127e/install-node.sh)"
-An error has occurred. 
-The token may be expired or invalid. 
-Please check log for further details.
+E: Conflicting values set for option Signed-By regarding source http://download.virtualbox.org/virtualbox/debian/ jammy: /usr/share/keyrings/virtualbox.gpg != 
+E: The list of sources could not be read.
+как удалить эту запись?
